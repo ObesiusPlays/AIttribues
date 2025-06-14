@@ -1,0 +1,20 @@
+const modifier = (text) => {
+  initializePlayer(state)
+
+  const { level, attributes } = state.player
+
+  // Build readable attribute text
+  const attributeDescription = `You are a level ${level} adventurer. ` +
+    `Your body is strong (${attributes.body}), ` +
+    `your mind is sharp (${attributes.mind}), ` +
+    `and your instincts are keen (${attributes.instinct}).`
+
+  // Set this as context memory override
+  state.memory.context = attributeDescription
+
+  // Pass original context along (unchanged)
+  return { text }
+}
+
+// Don't modify this part
+modifier(text)
