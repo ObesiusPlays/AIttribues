@@ -1,0 +1,16 @@
+const modifier = (text) => {
+  initializePlayer(state)
+
+  let finalText = text
+
+  if (state.message) {
+    // Add the level-up message to the end of the AI output
+    finalText += `\n\n[${state.message}]`
+    delete state.message // ensure it only appears once
+  }
+
+  return { text: finalText }
+}
+
+// Don't modify this part
+modifier(text)
