@@ -1,0 +1,68 @@
+const modifier = (text) => {
+  initializePlayer(state)
+
+  const lower = text.toLowerCase().trim()
+
+  // === COMMAND HANDLER ===
+  if (lower.startsWith(":")) {
+    const command = lower.slice(1).split(" ")[0]
+
+    switch (command) {
+      case "stats":
+        const p = state.player
+        state.message =
+          `Level ${p.level}\n` +
+          `Body: ${p.attributes.body} (${p.exp.body} XP)\n` +
+          `Mind: ${p.attributes.mind} (${p.exp.mind} XP)\n` +
+          `Instinct: ${p.attributes.instinct} (${p.exp.instinct} XP)`
+        return { text: '', stop: true }
+
+      case "resetstats":
+        delete state.player
+        state.message = "Stats have been reset."
+        return { text: '', stop: true }
+
+      case "help":
+        state.message =
+          "Available commands:\n" +
+          ":stats - Show your current level and attributes\n" +
+          ":resetstats - Reset all stats to default\n" +
+          ":help - Show this help message"
+        return { text: '', stop: true }
+
+      default:
+        state.message = `Unknown command: ${command}`
+        return { text: '', stop: true }
+    }
+  }
+
+  // === EXP TRIGGER SYSTEM ===
+  const triggers = {
+    body: ["punch", "run", "fight", "kick", "lift", "carry", "push", "climb", "swing", "stab", "attack"],
+    mind: ["study", "think", "solve", "analyze", "remember", "plan", "decode", "learn", "read", "calculate"],
+    instinct: ["dodge", "react", "notice", "sense", "feel", "intuit", "jump back", "duck", "listen", "smell"]
+  }
+
+  let matched = null
+  for (const attr in triggers) {
+    for (const keyword of triggers[attr]) {
+      if (lower.includes(keyword)) {
+        matched = attr
+        break
+      }
+    }
+    if (matched) break
+  }
+
+  if (matched) {
+    const leveledUp = addExp(state, matched, 1)
+    if (!leveledUp) delete state.message
+  } else {
+    delete state.message
+  }
+
+  return { text }
+}
+
+// Don't modify this part
+modifier(text)
