@@ -4,6 +4,8 @@ This Script is free to use, just make sure to tag the scenario it under #AIttrib
 
 You’ll need to use a PC to install a script, if you can't really do so because of your own reasons feel free to use the own example scenario, it's setted up so players can get some full control over what the story is anyways.
 
+You can get the codes on this github, just use the little menu 
+
 Step-by-Step Guide:
 - Go to AI Dungeon and log in.
 - Click "Create Scenario" to make a new one — or choose an existing scenario to edit.
@@ -21,7 +23,7 @@ Step-by-Step Guide:
 
 - Click on Context.
 - Remove any existing code.
-- Paste the Context code in its place.
+- Paste the Context code in its place. 
 
 - Click on Output.
 - Clear the code that's already there.
