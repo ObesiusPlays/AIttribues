@@ -17,15 +17,15 @@ Step-by-Step Guide:
 - Remove any existing code.
 - Copy the Library code  into the now-empty box.
 
-- Click on Input.
+- Click on Input (on the left).
 - Remove any existing code.
 - Paste the Input code into the now-empty box.
 
-- Click on Context.
+- Click on Context (on the left).
 - Remove any existing code.
 - Paste the Context code into the now-empty box. 
 
-- Click on Output.
+- Click on Output (on the left).
 - Remove any existing code.
 - Paste the Output code into the now-empty box.
 
