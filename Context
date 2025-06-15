@@ -1,20 +1,15 @@
 const modifier = (text) => {
-  initializePlayer(state)
+  initializePlayer(state);
 
-  const { level, attributes } = state.player
+  // Only update memory if changed
+  const { level, attributes } = state.player;
+  const newMemory = `You are a level ${level} adventurer. Your body is strong (${attributes.body}), your mind is sharp (${attributes.mind}), and your instincts are keen (${attributes.instinct}).`;
 
-  // Build readable attribute text
-  const attributeDescription = `You are a level ${level} adventurer. ` +
-    `Your body is strong (${attributes.body}), ` +
-    `your mind is sharp (${attributes.mind}), ` +
-    `and your instincts are keen (${attributes.instinct}).`
+  if (state.memory.context !== newMemory) {
+    state.memory.context = newMemory;
+  }
 
-  // Set this as context memory override
-  state.memory.context = attributeDescription
+  return { text };
+};
 
-  // Pass original context along (unchanged)
-  return { text }
-}
-
-// Don't modify this part
-modifier(text)
+modifier(text);
