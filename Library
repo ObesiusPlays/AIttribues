@@ -1,10 +1,8 @@
 // === Leveling System Constants ===
-const MAX_ATTRIBUTE = 100
-const BASE_EXP_REQUIREMENT = 10
-const EXP_GROWTH_RATE = 1.2  // makes each level a bit harder
-
-// === Attributes ===
-const ATTRIBUTES = ['body', 'mind', 'instinct']
+const MAX_ATTRIBUTE = 100;
+const BASE_EXP_REQUIREMENT = 10;
+const EXP_GROWTH_RATE = 1.2;
+const ATTRIBUTES = ['body', 'mind', 'instinct'];
 
 // === Initialize Player State ===
 function initializePlayer(state) {
@@ -20,86 +18,67 @@ function initializePlayer(state) {
         body: 0,
         mind: 0,
         instinct: 0
-      }
-    }
+      },
+      lastUpdate: {} // Track last known values
+    };
   }
 }
 
-// === Get required EXP to level up an attribute ===
+// === Required EXP Calculation ===
 function getRequiredExp(currentValue) {
-  return Math.floor(BASE_EXP_REQUIREMENT * Math.pow(EXP_GROWTH_RATE, currentValue - 5))
+  return Math.floor(BASE_EXP_REQUIREMENT * Math.pow(EXP_GROWTH_RATE, currentValue - 5));
 }
 
-// === Add EXP to a stat and level up if possible ===
+// === Add EXP and Handle Level Up ===
 function addExp(state, attribute, amount) {
-  if (!ATTRIBUTES.includes(attribute)) {
-    console.log(`Invalid attribute: ${attribute}`)
-    return false
-  }
+  if (!ATTRIBUTES.includes(attribute)) return false;
 
-  initializePlayer(state)
-  const current = state.player.attributes[attribute]
-  if (current >= MAX_ATTRIBUTE) return false
+  initializePlayer(state);
+  const current = state.player.attributes[attribute];
+  if (current >= MAX_ATTRIBUTE) return false;
 
-  state.player.exp[attribute] += amount
-  const required = getRequiredExp(current)
+  state.player.exp[attribute] += amount;
+  const required = getRequiredExp(current);
 
   if (state.player.exp[attribute] >= required) {
-  state.player.exp[attribute] -= required
-  state.player.attributes[attribute] += 1
+    state.player.exp[attribute] -= required;
+    state.player.attributes[attribute] += 1;
+    state.message = `Your ${attribute} has improved to ${state.player.attributes[attribute]}!`;
 
-  // Update story card with new attribute value
-  updateAttributeCard(attribute, state.player.attributes[attribute])
+    // Only update card if value changed
+    if (!state.player.lastUpdate) state.player.lastUpdate = {};
+    if (state.player.lastUpdate[attribute] !== state.player.attributes[attribute]) {
+      updateAttributeCard(attribute, state.player.attributes[attribute]);
+      state.player.lastUpdate[attribute] = state.player.attributes[attribute];
+    }
 
-  state.message = `Your ${attribute} has improved to ${state.player.attributes[attribute]}!`
-  return true
-}
-
-
-  return false
-}
-function updateAttributeCard(attribute, value) {
-  const descriptions = {
-    body: [
-      "untrained and average",
-      "physically improving",
-      "strong and agile",
-      "a powerful physical force",
-      "a legendary warrior"
-    ],
-    mind: [
-      "unfocused and curious",
-      "sharp and analytical",
-      "mentally disciplined",
-      "brilliant and strategic",
-      "a master thinker"
-    ],
-    instinct: [
-      "cautious but unsure",
-      "attuned to danger",
-      "keen and reactive",
-      "a master of intuition",
-      "a sixth sense incarnate"
-    ]
+    return true;
   }
 
-  let tier = 0
-  if (value >= 20) tier = 1
-  if (value >= 40) tier = 2
-  if (value >= 60) tier = 3
-  if (value >= 80) tier = 4
+  return false;
+}
 
-  const description = `The player is ${descriptions[attribute][tier]}. (Current ${attribute}: ${value})`
-  const key = `player_${attribute}`
+// === Create or Update Story Card ===
+function updateAttributeCard(attribute, value) {
+  const descriptions = {
+    body: ["untrained and average", "physically improving", "strong and agile", "a powerful physical force", "a legendary warrior"],
+    mind: ["unfocused and curious", "sharp and analytical", "mentally disciplined", "brilliant and strategic", "a master thinker"],
+    instinct: ["cautious but unsure", "attuned to danger", "keen and reactive", "a master of intuition", "a sixth sense incarnate"]
+  };
 
-  // Try to find the card
-  const index = storyCards.findIndex(card => card.keys.includes(key))
+  let tier = 0;
+  if (value >= 20) tier = 1;
+  if (value >= 40) tier = 2;
+  if (value >= 60) tier = 3;
+  if (value >= 80) tier = 4;
+
+  const description = `The player is ${descriptions[attribute][tier]}. (Current ${attribute}: ${value})`;
+  const key = `player_${attribute}`;
+  const index = storyCards.findIndex(card => card.keys.includes(key));
 
   if (index !== -1) {
-    // Update existing
-    updateStoryCard(index, [key], description, "attribute")
+    updateStoryCard(index, [key], description, "attribute");
   } else {
-    // Create new
-    addStoryCard([key], description, "attribute")
+    addStoryCard([key], description, "attribute");
   }
 }
