@@ -14,20 +14,20 @@ Step-by-Step Guide:
 - You’ll now see several tabs: Library, Input, Context, and Output. Follow the steps below for each one:
 
 - Click on Library (on the left).
-- Delete everything inside.
-- Copy the Library code (provided to you) and paste it in.
+- Remove any existing code.
+- Copy the Library code  into the now-empty box.
 
 - Click on Input.
-- Delete all existing code.
+- Remove any existing code.
 - Paste the Input code into the now-empty box.
 
 - Click on Context.
 - Remove any existing code.
-- Paste the Context code in its place. 
+- Paste the Context code into the now-empty box. 
 
 - Click on Output.
-- Clear the code that's already there.
-- Paste the Output code into the blank space.
+- Remove any existing code.
+- Paste the Output code into the now-empty box.
 
 Once all four tabs are updated, click the big yellow SAVE button in the top right corner.
 
